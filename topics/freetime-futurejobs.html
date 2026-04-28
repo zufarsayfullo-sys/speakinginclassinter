@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speak Up · Free Time & Future Jobs | Journey to Tomorrow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Split Background - Travel Side + Future Side */
+        .travel-side {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #52b788 100%);
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .travel-side::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="10" y="30" fill="rgba(255,255,255,0.08)" font-size="14">✈️</text><text x="60" y="50" fill="rgba(255,255,255,0.08)" font-size="12">🏔️</text><text x="30" y="80" fill="rgba(255,255,255,0.08)" font-size="16">🌊</text><text x="80" y="20" fill="rgba(255,255,255,0.06)" font-size="10">🚗</text></svg>');
+            background-size: 80px 80px;
+            animation: floatTravel 20s linear infinite;
+        }
+
+        .future-side {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #24243e 100%);
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .future-side::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="15" y="40" fill="rgba(0,255,255,0.06)" font-size="12">🤖</text><text x="65" y="60" fill="rgba(0,255,255,0.06)" font-size="14">💻</text><text x="35" y="85" fill="rgba(0,255,255,0.06)" font-size="10">🚀</text><text x="75" y="25" fill="rgba(0,255,255,0.06)" font-size="12">⚡</text></svg>');
+            background-size: 90px 90px;
+            animation: floatFuture 25s linear infinite reverse;
+        }
+
+        @keyframes floatTravel {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        @keyframes floatFuture {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-120px) rotate(5deg); }
+        }
+
+        /* Floating icons */
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: floatAround 18s ease-in-out infinite;
+        }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(25px, -20px) rotate(5deg); }
+            50% { transform: translate(-15px, -35px) rotate(-3deg); }
+            75% { transform: translate(20px, -15px) rotate(4deg); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            gap: 1.5rem;
+            z-index: 30;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .sidebar-header p {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 0.3rem;
+        }
+
+        /* Part buttons */
+        .part-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .part-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(5px);
+        }
+
+        .part-btn.active {
+            background: linear-gradient(135deg, #52b788, #2d6a4f);
+            border-color: transparent;
+        }
+
+        .part-btn.future.active {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .part-btn .part-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-btn .part-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .part-btn .part-sub {
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+
+        /* Timer & Roles Section */
+        .sidebar-controls {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .timer-display {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #52b788;
+            letter-spacing: 3px;
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 0.8rem;
+        }
+
+        .timer-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .timer-btn:hover {
+            background: #52b788;
+            color: #000;
+        }
+
+        .roles-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .role-buttons {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 0.8rem 0;
+        }
+
+        .role {
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .role.active {
+            background: #52b788;
+            color: #000;
+        }
+
+        .swap-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.7rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .swap-btn:hover {
+            background: #52b788;
+            color: #000;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Questions Container */
+        .questions-container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .part-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .travel-header {
+            background: linear-gradient(135deg, #52b788, #2d6a4f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .future-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .part-header p {
+            color: #aaa;
+        }
+
+        /* Question Cards */
+        .question-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: fadeIn 0.5s ease backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-card:nth-child(1) { animation-delay: 0.05s; }
+        .question-card:nth-child(2) { animation-delay: 0.1s; }
+        .question-card:nth-child(3) { animation-delay: 0.15s; }
+        .question-card:nth-child(4) { animation-delay: 0.2s; }
+
+        .question-card:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateX(8px);
+            border-color: rgba(82, 183, 136, 0.4);
+        }
+
+        .question-card.completed {
+            background: rgba(82, 183, 136, 0.12);
+            border-left: 4px solid #52b788;
+        }
+
+        .question-number {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: #52b788;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .check-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: #52b788;
+        }
+
+        .question-card.completed .check-icon {
+            opacity: 1;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+        }
+
+        .dot.completed {
+            background: #52b788;
+            color: #000;
+        }
+
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 260px;
+                padding: 1rem;
+            }
+            .timer-display {
+                font-size: 1.8rem;
+            }
+            .question-text {
+                font-size: 0.9rem;
+            }
+            .part-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scrollbar */
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #52b788;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Split Backgrounds -->
+<div class="travel-side"></div>
+<div class="future-side"></div>
+
+<!-- Floating Icons - Travel Side -->
+<div class="floating-icon" style="top: 8%; left: 3%; animation-duration: 16s;">✈️🌍</div>
+<div class="floating-icon" style="top: 65%; left: 8%; animation-duration: 20s;">🏔️⛰️</div>
+<div class="floating-icon" style="top: 30%; left: 15%; animation-duration: 14s;">🌊🏖️</div>
+<div class="floating-icon" style="top: 75%; left: 20%; animation-duration: 22s;">🚗🛣️</div>
+
+<!-- Floating Icons - Future Side -->
+<div class="floating-icon" style="top: 15%; right: 5%; animation-duration: 17s;">🤖💡</div>
+<div class="floating-icon" style="top: 55%; right: 12%; animation-duration: 19s;">🚀⚡</div>
+<div class="floating-icon" style="top: 70%; right: 8%; animation-duration: 15s;">💻📊</div>
+<div class="floating-icon" style="top: 25%; right: 15%; animation-duration: 21s;">🔮✨</div>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="icon">🎯✨</div>
+            <h2>Free Time & Future Jobs</h2>
+            <p>Choose your discussion part</p>
+        </div>
+
+        <!-- Part 1 Button - Travel Theme -->
+        <div class="part-btn active" id="part1Btn">
+            <div class="part-icon">✈️🌴</div>
+            <div class="part-title">Part 1 · Free Time & Travel</div>
+            <div class="part-sub">Hobbies · Sports · Exploring</div>
+        </div>
+
+        <!-- Part 2 Button - Future Jobs Theme -->
+        <div class="part-btn future" id="part2Btn">
+            <div class="part-icon">🚀🤖</div>
+            <div class="part-title">Part 2 · Future & Careers</div>
+            <div class="part-sub">Dream jobs · Technology · Success</div>
+        </div>
+
+        <!-- Timer & Roles -->
+        <div class="sidebar-controls">
+            <div class="timer-box">
+                <div class="timer-display" id="timerDisplay">4:00</div>
+                <div class="timer-buttons">
+                    <button class="timer-btn" id="startBtn">▶ START</button>
+                    <button class="timer-btn" id="resetBtn">⟳ RESET</button>
+                </div>
+            </div>
+
+            <div class="roles-box">
+                <div style="font-size: 0.8rem; margin-bottom: 0.5rem; color: #52b788;">💬 Discussion Roles</div>
+                <div class="role-buttons">
+                    <div class="role active" id="roleA">Explorer A</div>
+                    <div class="role" id="roleB">Thinker B</div>
+                </div>
+                <button class="swap-btn" id="swapBtn">⇄ Swap Roles</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" id="mainContent">
+        <!-- Questions will be dynamically inserted here -->
+    </div>
+</div>
+
+<script>
+    // Questions Data
+    const PART1_QUESTIONS = [
+        { text: "What do you do in your free time?" },
+        { text: "Have you ever participated in any sport competitions?" },
+        { text: "Do you like travelling across your country?" },
+        { text: "Do you prefer to spend time indoors or outdoors?" }
+    ];
+
+    const PART2_QUESTIONS = [
+        { text: "Describe your dream job." },
+        { text: "What job will be popular in the future?" },
+        { text: "Explain profession that is getting popular in your country now." },
+        { text: "How will technology help people to do business that is more successful?" }
+    ];
+
+    // State
+    let currentPart = 1;
+    let completed = new Set();
+    let timeLeft = 240;
+    let timerInterval = null;
+    let isRunning = false;
+    let roleAIsSpeaker = true;
+
+    // DOM Elements
+    const mainContent = document.getElementById('mainContent');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const swapBtn = document.getElementById('swapBtn');
+    const roleA = document.getElementById('roleA');
+    const roleB = document.getElementById('roleB');
+    const part1Btn = document.getElementById('part1Btn');
+    const part2Btn = document.getElementById('part2Btn');
+
+    // Timer Functions
+    function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 30) {
+            timerDisplay.style.color = '#ff4444';
+        } else if (timeLeft <= 60) {
+            timerDisplay.style.color = '#ffaa44';
+        } else {
+            timerDisplay.style.color = '#52b788';
+        }
+        
+        if (timeLeft === 0 && isRunning) {
+            stopTimer();
+            alert("⏰ Time's up! Great discussion!\n\nDid you cover all 4 questions? ✨");
+        }
+    }
+
+    function startTimer() {
+        if (isRunning) return;
+        if (timeLeft <= 0) {
+            timeLeft = 240;
+            updateTimerDisplay();
+        }
+        isRunning = true;
+        startBtn.textContent = '⏸ PAUSE';
+        startBtn.style.background = '#52b788';
+        startBtn.style.color = '#000';
+        
+        timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimerDisplay();
+            }
+            if (timeLeft === 0) {
+                stopTimer();
+                alert("⏰ Time's up! Great discussion!\n\nDid you cover all 4 questions? ✨");
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        isRunning = false;
+        startBtn.textContent = '▶ START';
+        startBtn.style.background = 'rgba(82, 183, 136, 0.2)';
+        startBtn.style.color = '#52b788';
+    }
+
+    function resetTimer() {
+        stopTimer();
+        timeLeft = 240;
+        updateTimerDisplay();
+    }
+
+    // Role Functions
+    function updateRolesUI() {
+        if (roleAIsSpeaker) {
+            roleA.classList.add('active');
+            roleB.classList.remove('active');
+            roleA.innerHTML = '🌍 Explorer A';
+            roleB.innerHTML = '💡 Thinker B';
+        } else {
+            roleB.classList.add('active');
+            roleA.classList.remove('active');
+            roleB.innerHTML = '🌍 Explorer B';
+            roleA.innerHTML = '💡 Thinker A';
+        }
+    }
+
+    function swapRoles() {
+        roleAIsSpeaker = !roleAIsSpeaker;
+        updateRolesUI();
+    }
+
+    // Question Functions
+    function toggleQuestion(index) {
+        const fullIndex = (currentPart === 1) ? index : index + 4;
+        if (completed.has(fullIndex)) {
+            completed.delete(fullIndex);
+        } else {
+            completed.add(fullIndex);
+        }
+        renderQuestions();
+        renderDots();
+    }
+
+    function renderDots() {
+        const progressContainer = document.querySelector('.progress-section');
+        if (!progressContainer) return;
+        
+        const dotsDiv = progressContainer.querySelector('.progress-dots');
+        if (!dotsDiv) return;
+        
+        dotsDiv.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            const fullIndex = (currentPart === 1) ? i : i + 4;
+            const dot = document.createElement('div');
+            dot.className = `dot ${completed.has(fullIndex) ? 'completed' : ''}`;
+            dot.textContent = i + 1;
+            dot.onclick = () => toggleQuestion(i);
+            dotsDiv.appendChild(dot);
+        }
+    }
+
+    function renderQuestions() {
+        const questions = currentPart === 1 ? PART1_QUESTIONS : PART2_QUESTIONS;
+        const isPart1 = currentPart === 1;
+        
+        mainContent.innerHTML = `
+            <div class="questions-container">
+                <div class="part-header">
+                    <h2 class="${isPart1 ? 'travel-header' : 'future-header'}">${isPart1 ? '✈️ Part 1 · Free Time & Adventures' : '🚀 Part 2 · Future Jobs & Technology'}</h2>
+                    <p>${isPart1 ? 'Discover how you spend your leisure time' : 'Explore careers, innovations and tomorrow\'s opportunities'}</p>
+                </div>
+                
+                ${questions.map((q, idx) => {
+                    const fullIndex = currentPart === 1 ? idx : idx + 4;
+                    const isCompleted = completed.has(fullIndex);
+                    return `
+                        <div class="question-card ${isCompleted ? 'completed' : ''}" onclick="window.toggleQuestion(${idx})">
+                            <div class="question-number">Q${idx + 1}</div>
+                            <div class="question-text">${q.text}</div>
+                            <div class="check-icon">✓</div>
+                        </div>
+                    `;
+                }).join('')}
+                
+                <div class="progress-section">
+                    <div class="progress-dots"></div>
+                    <button class="reset-btn" id="resetProgressBtn">⟳ Reset Progress</button>
+                </div>
+            </div>
+        `;
+        
+        renderDots();
+        
+        // Add reset progress listener
+        const resetProgressBtn = document.getElementById('resetProgressBtn');
+        if (resetProgressBtn) {
+            resetProgressBtn.onclick = () => {
+                const startIndex = currentPart === 1 ? 0 : 4;
+                const endIndex = startIndex + 4;
+                for (let i = startIndex; i < endIndex; i++) {
+                    completed.delete(i);
+                }
+                renderQuestions();
+                renderDots();
+            };
+        }
+    }
+
+    // Part Switching
+    function switchToPart(part) {
+        currentPart = part;
+        
+        if (part === 1) {
+            part1Btn.classList.add('active');
+            part2Btn.classList.remove('active');
+        } else {
+            part2Btn.classList.add('active');
+            part1Btn.classList.remove('active');
+        }
+        
+        renderQuestions();
+    }
+
+    // Make toggleQuestion globally accessible
+    window.toggleQuestion = toggleQuestion;
+
+    // Initialize
+    function init() {
+        updateTimerDisplay();
+        renderQuestions();
+        updateRolesUI();
+        
+        startBtn.onclick = startTimer;
+        resetBtn.onclick = resetTimer;
+        swapBtn.onclick = swapRoles;
+        part1Btn.onclick = () => switchToPart(1);
+        part2Btn.onclick = () => switchToPart(2);
+    }
+
+    init();
+</script>
+</body>
+</html>
