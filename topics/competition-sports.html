@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speak Up · Competition & Sports | CR7 Legacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Ronaldo Theme Background - Red, White, Black */
+        .ronaldo-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #8B0000 0%, #CC0000 25%, #1a1a2e 50%, #CC0000 75%, #8B0000 100%);
+        }
+
+        /* CR7 Pattern - Subtle logo effect */
+        .cr7-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="15" y="30" fill="rgba(255,215,0,0.06)" font-size="20" font-weight="bold">CR7</text><text x="65" y="70" fill="rgba(255,215,0,0.05)" font-size="18" font-weight="bold">CR7</text><text x="35" y="85" fill="rgba(255,215,0,0.04)" font-size="16" font-weight="bold">CR7</text><text x="80" y="25" fill="rgba(255,215,0,0.05)" font-size="14" font-weight="bold">CR7</text></svg>');
+            background-size: 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Stadium crowd effect - animated dots */
+        .crowd-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 215, 0, 0.02) 0px,
+                rgba(255, 215, 0, 0.02) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            pointer-events: none;
+            animation: crowdWave 8s linear infinite;
+        }
+
+        @keyframes crowdWave {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+
+        /* Floating Ronaldo icons */
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: floatSport 18s ease-in-out infinite;
+        }
+
+        @keyframes floatSport {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(25px, -20px) rotate(5deg); }
+            50% { transform: translate(-15px, -35px) rotate(-3deg); }
+            75% { transform: translate(20px, -15px) rotate(4deg); }
+        }
+
+        /* Goal net effect on sides */
+        .goal-net-left {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 2px,
+                transparent 2px,
+                transparent 12px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .goal-net-right {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 12px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar - CR7 Style */
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid #ffd700;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            gap: 1.5rem;
+            z-index: 30;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ffd700;
+        }
+
+        .sidebar-header .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            animation: siuu 2s ease-in-out infinite;
+        }
+
+        @keyframes siuu {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffd700;
+            letter-spacing: 2px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.7rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        /* Part buttons - Ronaldo themed */
+        .part-btn {
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .part-btn:hover {
+            background: rgba(255, 215, 0, 0.15);
+            transform: translateX(5px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .part-btn.active {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            border-color: transparent;
+        }
+
+        .part-btn.active .part-title,
+        .part-btn.active .part-sub {
+            color: #000;
+        }
+
+        .part-btn .part-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-btn .part-title {
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: #ffd700;
+        }
+
+        .part-btn .part-sub {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            color: #ccc;
+        }
+
+        /* Timer & Roles Section */
+        .sidebar-controls {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .timer-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+
+        .timer-display {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffd700;
+            letter-spacing: 3px;
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 0.8rem;
+        }
+
+        .timer-btn {
+            background: rgba(255, 215, 0, 0.15);
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            color: #ffd700;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .timer-btn:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .roles-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+
+        .role-buttons {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 0.8rem 0;
+        }
+
+        .role {
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .role.active {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .swap-btn {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            color: #ffd700;
+            cursor: pointer;
+            font-size: 0.7rem;
+            width: 100%;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .swap-btn:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Questions Container */
+        .questions-container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .part-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .part-header p {
+            color: #ccc;
+        }
+
+        /* Question Cards - Jersey style */
+        .question-card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-card:nth-child(1) { animation-delay: 0.05s; }
+        .question-card:nth-child(2) { animation-delay: 0.1s; }
+        .question-card:nth-child(3) { animation-delay: 0.15s; }
+        .question-card:nth-child(4) { animation-delay: 0.2s; }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #ffd700;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .question-card:hover {
+            background: rgba(0, 0, 0, 0.85);
+            transform: translateX(8px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .question-card:hover::before {
+            opacity: 1;
+        }
+
+        .question-card.completed {
+            background: rgba(255, 215, 0, 0.12);
+            border-left: 5px solid #ffd700;
+        }
+
+        .question-number {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .check-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: #ffd700;
+        }
+
+        .question-card.completed .check-icon {
+            opacity: 1;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        .dot.completed {
+            background: #ffd700;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .reset-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            color: #ffd700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        /* Number 7 badge */
+        .number7-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 215, 0, 0.15);
+            font-family: 'Space Grotesk', monospace;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 260px;
+                padding: 1rem;
+            }
+            .timer-display {
+                font-size: 1.8rem;
+            }
+            .question-text {
+                font-size: 0.9rem;
+            }
+            .part-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scrollbar */
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(255, 215, 0, 0.05);
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #ffd700;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Ronaldo Background -->
+<div class="ronaldo-bg"></div>
+<div class="cr7-pattern"></div>
+<div class="crowd-effect"></div>
+<div class="goal-net-left"></div>
+<div class="goal-net-right"></div>
+
+<!-- Floating Sports Icons -->
+<div class="floating-icon" style="top: 8%; left: 3%; animation-duration: 16s;">🏆⚽</div>
+<div class="floating-icon" style="top: 65%; left: 10%; animation-duration: 20s;">🇵🇹 CR7</div>
+<div class="floating-icon" style="top: 20%; right: 5%; animation-duration: 14s;">⚽🥅</div>
+<div class="floating-icon" style="top: 75%; right: 12%; animation-duration: 22s;">🏅🎽</div>
+<div class="floating-icon" style="top: 45%; left: 85%; animation-duration: 18s;">👟⚡</div>
+
+<!-- CR7 Number 7 Badge -->
+<div class="number7-badge">7</div>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="icon">🐐🇵🇹</div>
+            <h2>COMPETITION & SPORTS</h2>
+            <p>CR7 Legacy · Choose your part</p>
+        </div>
+
+        <!-- Part 1 Button -->
+        <div class="part-btn active" id="part1Btn">
+            <div class="part-icon">🏆🤔</div>
+            <div class="part-title">Part 1 · Mindset</div>
+            <div class="part-sub">Competition vs Cooperation · Your Experience</div>
+        </div>
+
+        <!-- Part 2 Button -->
+        <div class="part-btn" id="part2Btn">
+            <div class="part-icon">⚽🎯</div>
+            <div class="part-title">Part 2 · Sports & Youth</div>
+            <div class="part-sub">Competitive Sports · Pros & Cons</div>
+        </div>
+
+        <!-- Timer & Roles -->
+        <div class="sidebar-controls">
+            <div class="timer-box">
+                <div class="timer-display" id="timerDisplay">4:00</div>
+                <div class="timer-buttons">
+                    <button class="timer-btn" id="startBtn">▶ START</button>
+                    <button class="timer-btn" id="resetBtn">⟳ RESET</button>
+                </div>
+            </div>
+
+            <div class="roles-box">
+                <div style="font-size: 0.8rem; margin-bottom: 0.5rem; color: #ffd700;">⚽ Discussion Roles</div>
+                <div class="role-buttons">
+                    <div class="role active" id="roleA">Captain A</div>
+                    <div class="role" id="roleB">Player B</div>
+                </div>
+                <button class="swap-btn" id="swapBtn">⇄ Swap Roles</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" id="mainContent">
+        <!-- Questions will be dynamically inserted here -->
+    </div>
+</div>
+
+<script>
+    // Questions Data
+    const PART1_QUESTIONS = [
+        { text: "Do you like competitions?" },
+        { text: "Have you ever taken part in a competition?" },
+        { text: "Which is more important: competition or cooperation?" },
+        { text: "Do you like competitive sports?" }
+    ];
+
+    const PART2_QUESTIONS = [
+        { text: "What competitive sports do you know?" },
+        { text: "Should children do competitive sports at school?" },
+        { text: "What are the advantages of competitive sports?" },
+        { text: "What are the disadvantages of competitive sports?" }
+    ];
+
+    // State
+    let currentPart = 1;
+    let completed = new Set();
+    let timeLeft = 240;
+    let timerInterval = null;
+    let isRunning = false;
+    let roleAIsSpeaker = true;
+
+    // DOM Elements
+    const mainContent = document.getElementById('mainContent');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const swapBtn = document.getElementById('swapBtn');
+    const roleA = document.getElementById('roleA');
+    const roleB = document.getElementById('roleB');
+    const part1Btn = document.getElementById('part1Btn');
+    const part2Btn = document.getElementById('part2Btn');
+
+    // Timer Functions
+    function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 30) {
+            timerDisplay.style.color = '#ff4444';
+        } else if (timeLeft <= 60) {
+            timerDisplay.style.color = '#ffaa44';
+        } else {
+            timerDisplay.style.color = '#ffd700';
+        }
+        
+        if (timeLeft === 0 && isRunning) {
+            stopTimer();
+            alert("⏰ Time's up! Great discussion!\n\nSIUUU! Did you cover all 4 questions? 🏆");
+        }
+    }
+
+    function startTimer() {
+        if (isRunning) return;
+        if (timeLeft <= 0) {
+            timeLeft = 240;
+            updateTimerDisplay();
+        }
+        isRunning = true;
+        startBtn.textContent = '⏸ PAUSE';
+        startBtn.style.background = '#ffd700';
+        startBtn.style.color = '#000';
+        
+        timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimerDisplay();
+            }
+            if (timeLeft === 0) {
+                stopTimer();
+                alert("⏰ Time's up! Great discussion!\n\nSIUUU! Did you cover all 4 questions? 🏆");
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        isRunning = false;
+        startBtn.textContent = '▶ START';
+        startBtn.style.background = 'rgba(255, 215, 0, 0.15)';
+        startBtn.style.color = '#ffd700';
+    }
+
+    function resetTimer() {
+        stopTimer();
+        timeLeft = 240;
+        updateTimerDisplay();
+    }
+
+    // Role Functions
+    function updateRolesUI() {
+        if (roleAIsSpeaker) {
+            roleA.classList.add('active');
+            roleB.classList.remove('active');
+            roleA.innerHTML = '⚽ Captain A';
+            roleB.innerHTML = '🎯 Player B';
+        } else {
+            roleB.classList.add('active');
+            roleA.classList.remove('active');
+            roleB.innerHTML = '⚽ Captain B';
+            roleA.innerHTML = '🎯 Player A';
+        }
+    }
+
+    function swapRoles() {
+        roleAIsSpeaker = !roleAIsSpeaker;
+        updateRolesUI();
+    }
+
+    // Question Functions
+    function toggleQuestion(index) {
+        const fullIndex = (currentPart === 1) ? index : index + 4;
+        if (completed.has(fullIndex)) {
+            completed.delete(fullIndex);
+        } else {
+            completed.add(fullIndex);
+        }
+        renderQuestions();
+        renderDots();
+    }
+
+    function renderDots() {
+        const progressContainer = document.querySelector('.progress-section');
+        if (!progressContainer) return;
+        
+        const dotsDiv = progressContainer.querySelector('.progress-dots');
+        if (!dotsDiv) return;
+        
+        dotsDiv.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            const fullIndex = (currentPart === 1) ? i : i + 4;
+            const dot = document.createElement('div');
+            dot.className = `dot ${completed.has(fullIndex) ? 'completed' : ''}`;
+            dot.textContent = i + 1;
+            dot.onclick = () => toggleQuestion(i);
+            dotsDiv.appendChild(dot);
+        }
+    }
+
+    function renderQuestions() {
+        const questions = currentPart === 1 ? PART1_QUESTIONS : PART2_QUESTIONS;
+        const isPart1 = currentPart === 1;
+        
+        mainContent.innerHTML = `
+            <div class="questions-container">
+                <div class="part-header">
+                    <h2>${isPart1 ? '🏆 Part 1 · The Competitor\'s Mindset' : '⚽ Part 2 · Sports & The Next Generation'}</h2>
+                    <p>${isPart1 ? 'Explore your relationship with competitions and teamwork' : 'Discuss competitive sports in schools - pros, cons, and impact'}</p>
+                </div>
+                
+                ${questions.map((q, idx) => {
+                    const fullIndex = currentPart === 1 ? idx : idx + 4;
+                    const isCompleted = completed.has(fullIndex);
+                    return `
+                        <div class="question-card ${isCompleted ? 'completed' : ''}" onclick="window.toggleQuestion(${idx})">
+                            <div class="question-number">Q${idx + 1}</div>
+                            <div class="question-text">${q.text}</div>
+                            <div class="check-icon">✓</div>
+                        </div>
+                    `;
+                }).join('')}
+                
+                <div class="progress-section">
+                    <div class="progress-dots"></div>
+                    <button class="reset-btn" id="resetProgressBtn">⟳ Reset Progress</button>
+                </div>
+            </div>
+        `;
+        
+        renderDots();
+        
+        // Add reset progress listener
+        const resetProgressBtn = document.getElementById('resetProgressBtn');
+        if (resetProgressBtn) {
+            resetProgressBtn.onclick = () => {
+                const startIndex = currentPart === 1 ? 0 : 4;
+                const endIndex = startIndex + 4;
+                for (let i = startIndex; i < endIndex; i++) {
+                    completed.delete(i);
+                }
+                renderQuestions();
+                renderDots();
+            };
+        }
+    }
+
+    // Part Switching
+    function switchToPart(part) {
+        currentPart = part;
+        
+        if (part === 1) {
+            part1Btn.classList.add('active');
+            part2Btn.classList.remove('active');
+        } else {
+            part2Btn.classList.add('active');
+            part1Btn.classList.remove('active');
+        }
+        
+        renderQuestions();
+    }
+
+    // Make toggleQuestion globally accessible
+    window.toggleQuestion = toggleQuestion;
+
+    // Initialize
+    function init() {
+        updateTimerDisplay();
+        renderQuestions();
+        updateRolesUI();
+        
+        startBtn.onclick = startTimer;
+        resetBtn.onclick = resetTimer;
+        swapBtn.onclick = swapRoles;
+        part1Btn.onclick = () => switchToPart(1);
+        part2Btn.onclick = () => switchToPart(2);
+    }
+
+    init();
+</script>
+</body>
+</html>
